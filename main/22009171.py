@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Apr 29 14:14:08 2023
+Created on Sat Apr 19 14:14:08 2023
 
 @author: Ajay
 """
@@ -12,10 +12,21 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
 #reading source data
-population = pd.read_csv("C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Data Handling and Visualisation/infographics/Dataset/French Employment, salary, population/population.csv")
-salary_per_town_categories = pd.read_csv("C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Data Handling and Visualisation/infographics/Dataset/French Employment, salary, population/net_salary_per_town_categories.csv")
-name_geographic_information = pd.read_csv("C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Data Handling and Visualisation/infographics/Dataset/French Employment, salary, population/name_geographic_information.csv")
-base_establissement_pre_tranche = pd.read_csv("C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Data Handling and Visualisation/infographics/Dataset/French Employment, salary, population/base_etablissement_par_tranche_effectif.csv")
+#dataset 01
+population_url = "https://media.githubusercontent.com/media/AjayRahulRaja/Data_Handling_And_Visualisation/main/dataset/population_filtered.csv"
+population = pd.read_csv(population_url)
+
+#dataset 02
+net_salary_per_town_categories_csv_url = "https://raw.githubusercontent.com/AjayRahulRaja/Data_Handling_And_Visualisation/main/dataset/net_salary_per_town_categories.csv"
+salary_per_town_categories = pd.read_csv(net_salary_per_town_categories_csv_url)
+
+#dataset 03
+name_geographic_information_csv_url = "https://raw.githubusercontent.com/AjayRahulRaja/Data_Handling_And_Visualisation/main/dataset/name_geographic_information.csv"
+name_geographic_information = pd.read_csv(name_geographic_information_csv_url)
+
+#dataset 04
+base_etablissement_par_tranche_effectif_csv_url = "https://raw.githubusercontent.com/AjayRahulRaja/Data_Handling_And_Visualisation/main/dataset/base_etablissement_par_tranche_effectif.csv"
+base_establissement_pre_tranche = pd.read_csv(base_etablissement_par_tranche_effectif_csv_url)
 
 #checking source data
 population['CODGEO'].unique()
@@ -180,20 +191,20 @@ ax5.title.set_size(10)
 plt.legend(bbox_to_anchor = (1.015, 1.005), fontsize = 10)
 
 ax6 = fig.add_subplot(grid[2, 2])
-plt.text(0, 0.10, "This infographic aims to find which city in France is affordable to live in.\nThere are many aspects which will have an impact on this analysis.\nGender equality is important in the cities where we live in.\nThe top 15 cities of France have been analysed in the wage gap.\n\nIn general, men earn more than women in France as workers.\nAmong women, those who are aged between 18 and 50 years\nearn more than women aged between 18 and 25 and \nwomen aged more than 50 years.\n\nParis is the capital of France and one of the most expensive cities.\nThere are cities that are expensive and cheaper than Cities.\nParis is also a metropolitan city with a greater number of firms.\nMore firms mean more opportunities.", fontsize = 13)
+plt.text(0, 0.10, "This infographic aims to find which city in France is affordable to live in.\nThere are many aspects which will have an impact on this analysis\nGender equality is important in the cities where we live in.\nThe top 15 cities of France have been analysed in the wage gap.\n\nIn general, men earn more than women in France as workers.\nAmong women, those who are aged between 26 and 50 years\nearn more than women aged between 18 and 25 and \nwomen aged more than 50 years takes the econd place.\n\nParis is the capital of France and one of the most expensive cities\nThere are cities that are expensive and cheaper than Paris.\nParis is also a metropolitan city with a greater number of firms.\nMore firms mean more opportunities.", fontsize = 16)
 ax6.axis('off')
 
 ax7 = fig.add_subplot(grid[1, 2])
 base_establissement_pre_tranche = base_establissement_pre_tranche[['LIBGEO', 'E14TS1' ,'E14TS6', 'E14TS10', 'E14TS20', 'E14TS50' ,'E14TS100', 'E14TS200', 'E14TS500']]
 paris = base_establissement_pre_tranche[base_establissement_pre_tranche['LIBGEO'] == 'Paris']
 paris = paris.rename(columns = {'E14TS1' : "More than 1 employees",
-                              'E14TS6' : "More than 6 employees",
-                              'E14TS10' : "More than 10 employees",
-                              'E14TS20' : "More than 20 employees",
-                              'E14TS50' : "More than 50 employees",
-                              'E14TS100' : "More than 100 employees",
-                              "E14TS200" : "More than 200 employees",
-                              "E14TS500" : "More than 500 employees"})
+                                'E14TS6' : "More than 6 employees",
+                                'E14TS10' : "More than 10 employees",
+                                'E14TS20' : "More than 20 employees",
+                                'E14TS50' : "More than 50 employees",
+                                'E14TS100' : "More than 100 employees",
+                                "E14TS200" : "More than 200 employees",
+                                "E14TS500" : "More than 500 employees"})
 paris["employees betweeen 1 to 20"] = paris["More than 20 employees"] + paris["More than 10 employees"] + paris["More than 6 employees"] + paris["More than 1 employees"]
 paris = paris.drop(columns=["More than 20 employees", "More than 10 employees", "More than 6 employees", "More than 1 employees"])
 paris = paris.set_index("LIBGEO")
@@ -202,6 +213,4 @@ plt.pie(paris_values, autopct = "%1.1f%%", labels = None, startangle = 90)
 ax7.set_title("Percentage of firms in Paris \nclassified on the basis of number of employees", fontsize = 13)
 plt.legend(labels=["More than 500 employees", "More than 200 employees", "More than 100 employees", "employees more than 50"], bbox_to_anchor = (1.05, 0.75), fontsize = 10)
 plt.savefig("22009171.png", dpi = 300, bbox_inches = 'tight')
-
-# plt.savefig('C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Data Handling and Visualisation/infographics/plot.png', dpi = 300, bbox_inches = 'tight')
 plt.show()
