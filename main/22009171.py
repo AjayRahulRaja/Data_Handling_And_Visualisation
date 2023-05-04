@@ -175,12 +175,12 @@ grid = GridSpec(4, 4, wspace = 0.325, hspace = 0.30, figure = fig)
 
 # title, name, student ID
 ax1 = fig.add_subplot(grid[0, 0:3])
-plt.text(0.98, 0.95, "Name: Ajay Rahul Raja", fontsize = 15, fontweight = "bold")
-plt.text(0.98, 0.85, "Student ID: 22009171", fontsize = 15, fontweight = "bold")
-plt.text(0.15, 0.55, "Data Handling and Visualisation - Infographics Project",
-         fontsize = 30, fontweight = "bold")
-plt.text(0.23, 0.25, "Analysing which is the best city to choose in France",
-         fontsize = 25, fontweight = "bold")
+plt.text(0.98, 0.95, "Name: Ajay Rahul Raja", fontsize = 17, fontweight = "bold")
+plt.text(0.98, 0.85, "Student ID: 22009171", fontsize = 17, fontweight = "bold")
+plt.text(0.085, 0.50, "Data Handling and Visualisation - Infographics Project",
+         fontsize = 32, fontweight = "bold")
+plt.text(0.145, 0.20, "Analysing which is the best city to choose in France",
+         fontsize = 28, fontweight = "bold")
 plt.axis("off")
 # Bar Plot
 ax2 = fig.add_subplot(grid[1:3, 0:2])
@@ -200,7 +200,7 @@ sns.set_color_codes("muted")
 sns.barplot(x = 'wage_gap', y = 'LIBGEO', data = salary_data,
             label = "Wage Gap", color = "b")
 ax2.set(xlim = (0, 50))
-ax2.set_title("15 Cities in France with the Highest Percentage Wage Gap", fontsize = 13)
+ax2.set_title("15 Cities in France with the Highest Percentage Wage Gap", fontsize = 14)
 ax2.set_ylabel("Cities", fontsize = 12)
 ax2.set_xlabel("Percentage Wage Gap", fontsize = 12)
 plt.legend(bbox_to_anchor = (0.99, 0.091), fontsize = 10)
@@ -251,8 +251,9 @@ ax5.title.set_size(10)
 plt.legend(bbox_to_anchor = (1.015, 1.005), fontsize = 10)
 # Describption
 ax6 = fig.add_subplot(grid[2, 2])
-plt.text(0, 0.10,
-         "This infographics aims to find which city in France is affordable to live in.\nThere are many aspects which have an impact on this analysis like cost of\nliving, gender equality. [Bar Graph] Out of all top 15 cities of France which \nhave been analysed in the wage gap, La Turbie has the low wage  \ndifference and Le Vésient has the highest wage gap.\n\n[Density Plot] In general, men workers earn more than women in France.\n[Stacked Bar Plot] Among women, those who are aged between 26 and 50\nyears earn more than women aged between 18 and 25 and women\naged more than 50 years take the second place at the podium.\n\n[Line Chart] Paris is one of the most expensive cities, there are some cities \nwhich are expensive than Paris. [Pie Chart] Paris is also a metropolitan city \nwith a greater number of firms. More firms mean more opportunities.", fontsize = 14)
+plt.text(-0.20, 0.10,
+         "This infographics aims to find which city in France is affordable to live in.\nThere are many aspects which have an impact on this analysis like cost of\nliving, gender equality. [Bar Graph] Out of all top 15 cities of France which \nhave been analysed in the wage gap, La Turbie has the low wage  \ndifference and Le Vésient has the highest wage gap.\n\n[Density Plot] In general, men workers earn more than women in France.\n[Stacked Bar Plot] Among women, those who are aged between 26 and 50\nyears earn more than women aged between 18 and 25 and women\naged more than 50 years take the second place at the podium.\n\n[Line Chart] Paris is one of the most expensive cities, there are some cities \nwhich are expensive than Paris. [Pie Chart] Paris is also a metropolitan city \nwith a greater number of firms. More firms mean more opportunities.",
+         fontsize = 15)
 ax6.axis('off')
 # Pie Plot
 ax7 = fig.add_subplot(grid[1, 2])
@@ -286,7 +287,7 @@ paris = paris.set_index("LIBGEO")
 paris_values = [180, 456, 812, 1658]
 plt.pie(paris_values, autopct = "%1.1f%%", shadow=False, labels = None, startangle = 90)
 ax7.set_title("Percentage of firms in Paris \nclassified on the basis of number of employees",
-              fontsize = 13)
+              fontsize = 14)
 plt.legend(labels=["More than 500 employees",
                    "More than 200 employees",
                    "More than 100 employees",
