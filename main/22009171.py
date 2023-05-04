@@ -33,7 +33,6 @@ population['CODGEO'].unique()
 salary_per_town_categories.head()
 salary_per_town_categories['CODGEO'].apply(lambda x: str(x).isdigit())
 
-# salary_per_town_categories['CODGEO'] = salary_per_town_categories['CODGEO'].str.slice(1)
 # the CODGEO column has the code for cities and towns in salary_per_town_categories dataframe. There are some codes begin with '0' and it is needed to be removed.
 for x, val in enumerate(salary_per_town_categories['CODGEO']):
     if val[0] == '0':
@@ -52,7 +51,7 @@ for x, val in enumerate(base_establissement_pre_tranche['CODGEO']):
     else:
         base_establissement_pre_tranche['CODGEO']
 
-    # merging two dataframes on 'CODGEO'
+# merging two dataframes on 'CODGEO'
 salary_per_town_categories_merge = salary_per_town_categories.merge(population, left_on = 'CODGEO', right_on = 'CODGEO', how = 'inner', suffixes = ('_left', '_right'))
 
 # filtering male data
@@ -90,19 +89,19 @@ expensive_cities_1 = expensive_cities[['LIBGEO', 'SNHM14']]
 expensive_cities_2 = expensive_cities_1.sort_values('SNHM14', ascending = False).head(10)
 
 pas_cher_cities = salary_per_town_categories[salary_per_town_categories['SNHM14'] <= 22]
-pas_cher_cities_1 = pas_cher_cities[['CODGEO','LIBGEO', 'SNHM14']]
+pas_cher_cities_1 = pas_cher_cities[['CODGEO', 'LIBGEO', 'SNHM14']]
 pas_cher_cities_2 = pas_cher_cities_1.sort_values('SNHM14', ascending = False)
 pas_cher_cities_3 = pas_cher_cities_2.drop_duplicates('SNHM14').head(10)
 
 distance = name_geographic_information[['code_insee','éloignement']]
-dtype = {'CODGEO': int}
+dtype = {'CODGEO' : int}
 expensive_cities=expensive_cities.astype(dtype)
 
 # distance_pd_merged = pd.merge(expensive_cities, distance, how='left', left_on='CODGEO', right_on='code_insee')
 expensive_distance_pd_merged = pd.merge(expensive_cities, distance, how = 'left', left_on = 'CODGEO', right_on = 'code_insee')
 expensive_distance_pd_merged[['LIBGEO', 'SNHM14', 'éloignement']].sort_values('SNHM14', ascending = False)
 expensive_distance_pd_merged = expensive_distance_pd_merged[expensive_distance_pd_merged['LIBGEO'].isin(expensive_cities_2['LIBGEO'].values)]
-expensive_distance_pd_merged[['CODGEO','LIBGEO', 'SNHM14', 'éloignement']]
+expensive_distance_pd_merged[['CODGEO', 'LIBGEO', 'SNHM14', 'éloignement']]
 
 dtype = {'CODGEO' : int}
 pas_cher_cities_3 = pas_cher_cities_3.astype(dtype)
@@ -116,18 +115,18 @@ pas_cher_distance_pd_merged[['LIBGEO', 'SNHM14', 'éloignement']].sort_values('S
 # plotting the graphs
 
 plt.style.use('ggplot')
-
 fig = plt.figure(figsize = (27, 18))
-
 grid = GridSpec(4, 4, wspace = 0.325, hspace = 0.30, figure = fig)
 
+# title, name, student ID
 ax1 = fig.add_subplot(grid[0, 0:3])
 plt.text(0.98, 0.95, "Name: Ajay Rahul Raja", fontsize = 15, fontweight = "bold")
 plt.text(0.98, 0.85, "Student ID: 22009171", fontsize = 15, fontweight = "bold")
 plt.text(0.15, 0.55, "Data Handling and Visualisation - Infographics Project", fontsize = 30, fontweight = "bold")
-plt.text(0.25, 0.25, "Which city is the best to choose in France?", fontsize = 25, fontweight = "bold")
+plt.text(0.23, 0.25, "Analysing which is the best city to choose in France", fontsize = 25, fontweight = "bold")
 plt.axis("off")
 
+# Bar Plot
 ax2 = fig.add_subplot(grid[1:3, 0:2])
 salary_per_town_categories['wage_gap'] = salary_per_town_categories['SNHMH14'] - salary_per_town_categories['SNHMF14']
 wage_vs_gap = pd.DataFrame({'Mean Wages' : salary_per_town_categories['SNHM14'],
@@ -148,20 +147,21 @@ ax2.set_ylabel("Cities", fontsize = 12)
 ax2.set_xlabel("Percentage Wage Gap", fontsize = 12)
 plt.legend(bbox_to_anchor = (0.99, 0.091), fontsize = 10)
 
+#Line Plot
 ax3 = fig.add_subplot(grid[3, 0])
 expensive_distance_pd_merged=expensive_distance_pd_merged.sort_values("SNHM14")
 # Plotting the first data series on the left axis
-plot_1 = ax3.plot(expensive_cities_2['LIBGEO'], expensive_cities_2['SNHM14'], label = "Expensive cities")
+plot_1 = ax3.plot(expensive_cities_2['LIBGEO'], expensive_cities_2['SNHM14'], label = "Net Mean Salary")
 plt.xticks(rotation = 90)
 ax3.set_xlabel('cities')
-ax3.set_ylabel('net mean salary', color = 'red')
+ax3.set_ylabel('Net mean salary of all genders per year ', color = 'red')
 
 # Creating the second axis on the right side
 ax31 = ax3.twinx()
 
 # Plottting the second data series on the right axis
 plot_2 = ax31.plot(expensive_distance_pd_merged['LIBGEO'], expensive_distance_pd_merged['éloignement'], label = "Distance from Paris", color = 'blue')
-ax31.set_ylabel('Distance', color = 'blue')
+ax31.set_ylabel('Distance from Paris (Miles)', color = 'blue')
 plt.xticks(rotation = 90)
 plt.legend()
 
@@ -191,7 +191,7 @@ ax5.title.set_size(10)
 plt.legend(bbox_to_anchor = (1.015, 1.005), fontsize = 10)
 
 ax6 = fig.add_subplot(grid[2, 2])
-plt.text(0, 0.10, "This infographic aims to find which city in France is affordable to live in.\nThere are many aspects which will have an impact on this analysis\nGender equality is important in the cities where we live in.\nThe top 15 cities of France have been analysed in the wage gap.\n\nIn general, men earn more than women in France as workers.\nAmong women, those who are aged between 26 and 50 years\nearn more than women aged between 18 and 25 and \nwomen aged more than 50 years takes the econd place.\n\nParis is the capital of France and one of the most expensive cities\nThere are cities that are expensive and cheaper than Paris.\nParis is also a metropolitan city with a greater number of firms.\nMore firms mean more opportunities.", fontsize = 16)
+plt.text(0, 0.10, "This infographics aims to find which city in France is affordable to live in.\nThere are many aspects which have an impact on this analysis like cost of\nliving, gender equality. [Bar Graph] Out of all top 15 cities of France which \nhave been analysed in the wage gap, La Turbie has the low wage  \ndifference and Le Vésient has the highest wage gap.\n\n[Density Plot] In general, men workers earn more than women in France.\n[Stacked Bar Plot] Among women, those who are aged between 26 and 50\nyears earn more than women aged between 18 and 25 and women\naged more than 50 years take the second place at the podium.\n\n[Line Chart] Paris is one of the most expensive cities, there are some cities \nwhich are expensive than Paris. [Pie Chart] Paris is also a metropolitan city \nwith a greater number of firms. More firms mean more opportunities.", fontsize = 14)
 ax6.axis('off')
 
 ax7 = fig.add_subplot(grid[1, 2])
@@ -203,13 +203,13 @@ paris = paris.rename(columns = {'E14TS1' : "More than 1 employees",
                                 'E14TS20' : "More than 20 employees",
                                 'E14TS50' : "More than 50 employees",
                                 'E14TS100' : "More than 100 employees",
-                                "E14TS200" : "More than 200 employees",
-                                "E14TS500" : "More than 500 employees"})
+                                'E14TS200' : "More than 200 employees",
+                                'E14TS500' : "More   500 employees"})
 paris["employees betweeen 1 to 20"] = paris["More than 20 employees"] + paris["More than 10 employees"] + paris["More than 6 employees"] + paris["More than 1 employees"]
 paris = paris.drop(columns=["More than 20 employees", "More than 10 employees", "More than 6 employees", "More than 1 employees"])
 paris = paris.set_index("LIBGEO")
 paris_values = [180, 456, 812, 1658]
-plt.pie(paris_values, autopct = "%1.1f%%", labels = None, startangle = 90)
+plt.pie(paris_values, autopct = "%1.1f%%", shadow=False, labels = None, startangle = 90)
 ax7.set_title("Percentage of firms in Paris \nclassified on the basis of number of employees", fontsize = 13)
 plt.legend(labels=["More than 500 employees", "More than 200 employees", "More than 100 employees", "employees more than 50"], bbox_to_anchor = (1.05, 0.75), fontsize = 10)
 plt.savefig("22009171.png", dpi = 300, bbox_inches = 'tight')
